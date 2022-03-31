@@ -1,0 +1,19 @@
+{
+  "challenge_module": "QuantumComputationSpecs.Algorithms.StoppingPower",
+  "solution_module": "QuantumComputationSpecs.Algorithms.StoppingPower",
+  "theorem_names": [
+    "QuantumComputation.Specs.stoppingPower_correctness",
+    "QuantumComputation.Specs.stoppingPower_const_cost"
+  ],
+  "definition_names": [
+    "QuantumComputation.Specs.stoppingPowerAncillas",
+    "QuantumComputation.Specs.stoppingPowerProgram",
+    "QuantumComputation.Specs.stoppingPowerConstCost"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "allow_disproofs": false
+}

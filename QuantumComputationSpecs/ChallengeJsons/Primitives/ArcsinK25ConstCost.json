@@ -1,0 +1,19 @@
+{
+  "challenge_module": "QuantumComputationSpecs.Primitives.Arcsin",
+  "solution_module": "QuantumComputationSpecs.Primitives.Arcsin",
+  "theorem_names": [
+    "QuantumComputation.Specs.arcsin_correctness",
+    "QuantumComputation.Specs.arcsin_k25_const_cost"
+  ],
+  "definition_names": [
+    "QuantumComputation.Specs.arcsinAncillas",
+    "QuantumComputation.Specs.arcsinProgram",
+    "QuantumComputation.Specs.arcsinK25ConstCost"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "allow_disproofs": false
+}

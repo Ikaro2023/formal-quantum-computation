@@ -1,0 +1,23 @@
+{
+  "challenge_module": "QuantumComputationSpecs.Primitives.THCFactorization",
+  "solution_module": "QuantumComputationSpecs.Primitives.THCFactorization",
+  "theorem_names": [
+    "QuantumComputation.Specs.thc_correctness",
+    "QuantumComputation.Specs.thc_t_cost"
+  ],
+  "definition_names": [
+    "QuantumComputation.Specs.thcBlockAncillas",
+    "QuantumComputation.Specs.thcScratchAncillas",
+    "QuantumComputation.Specs.thcCatalystQubits",
+    "QuantumComputation.Specs.thcCandidateAlpha",
+    "QuantumComputation.Specs.thcCandidateOffset",
+    "QuantumComputation.Specs.thcCandidateProgram",
+    "QuantumComputation.Specs.thcTCost"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "allow_disproofs": false
+}

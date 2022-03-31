@@ -1,0 +1,66 @@
+name: Lean Action CI
+
+on:
+  # Branch pushes are covered by the `pull_request` run; only `main` needs its own.
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      # Replaces lean-action's `mk_all-check`, which runs before the Mathlib
+      # cache is fetched and so has to build `mk_all` and its Mathlib
+      # dependencies from source (upstream fix in progress:
+      # https://github.com/leanprover/lean-action/pull/199).
+      - name: Check all files are imported
+        run: scripts/check_all_imported.sh
+
+      # Install elan, clone the dependencies and fetch the Mathlib cache, so
+      # the build cache below can be restored into the package checkouts.
+      - name: Fetch dependencies and the Mathlib cache
+        uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1.7.1
+        with:
+          use-mathlib-cache: true
+          use-github-cache: false
+          build: false
+          test: false
+          lint: false
+
+      # Cache only build outputs that `lake exe cache get` does not provide:
+      # this repository's and physlib's (~100 MB). Caching the whole `.lake`
+      # (6-7 GB, mostly Mathlib) made the cache restore and save the slowest
+      # steps of the job.
+      - name: Restore build cache
+        id: cache-restore
+        # Same pin as lean-action.
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: |
+            .lake/build
+            .lake/packages/physlib/.lake/build
+          key: lake-build-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: lake-build-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1.7.1
+        with:
+          use-mathlib-cache: true
+          use-github-cache: false
+          build-args: '--wfail'
+
+      - name: Save build cache
+        if: success() && steps.cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: |
+            .lake/build
+            .lake/packages/physlib/.lake/build
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}

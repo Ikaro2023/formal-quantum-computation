@@ -1,0 +1,158 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml (v0.4): repo-root metadata for FormalQuantumComputation.
+
+version: "v0.4"
+
+project:
+  name: "formal-quantum-computation"
+  description: |-
+    A Lean 4 library for formally specifying and verifying quantum programs,
+    grounded in quantum Hoare logic with classical variables (Feng and Ying, 2021).
+    `QuantumComputation` is the core library: circuits, gates, registers, and
+    the underlying mathematics; total-correctness quantum Hoare logic; a
+    compositional expected-cost framework, including unbounded loops; and
+    verified algorithms.
+    `QuantumComputationSpecs` is a separate library of
+    [Comparator](https://github.com/leanprover/comparator) specifications and
+    benchmark challenges for automated theorem proving and AI-assisted
+    quantum program discovery.
+  authors: &authors
+    - "Sergey Shirobokov"
+    - "Ben Jaderberg"
+    - "Katerina Hristova"
+    - "George Tsoukalas"
+    - "Johannes Bausch"
+    - "Eric Wieser"
+    - "Francisco J. H. Heras"
+    - "Nicholas C. Rubin"
+    - "Guang Hao Low"
+    - "Sébastien Racanière"
+    - "Nenad Tomašev"
+    - "Lei M. Zhang"
+    - "James D. Watson"
+    - "Tanuj Khattar"
+    - "Aws Albarghouthi"
+    - "Stavan Jain"
+    - "Harun Khan"
+    - "Leopoldo Sarra"
+    - "Andrew W. Senior"
+    - "Michael Broughton"
+    - "Hussain Masoom"
+    - "Sergio Boixo"
+    - "Ryan Babbush"
+    - "Swarat Chaudhuri"
+    - "Pushmeet Kohli"
+  responsible_maintainers:
+    - "Sergey Shirobokov"
+    - "Ben Jaderberg"
+    - "Katerina Hristova"
+    - "George Tsoukalas"
+    - "Johannes Bausch"
+    - "Eric Wieser"
+    - "Francisco J. H. Heras"
+    - "Sébastien Racanière"
+    - "Nenad Tomašev"
+    - "Harun Khan"
+    - "Leopoldo Sarra"
+  license: "Apache-2.0"
+
+sources:
+  - title: "Discovering formally verified quantum programs with AI"
+    authors: *authors
+    id: "https://arxiv.org/abs/2611.09822"
+    type: "article"
+    location: "Section 1.1, Figure 2, Appendix A (Figures S1-S3, Equations 1-3), Appendix B, and specification definitions in Appendices E.1, F.1, G.1, H.1, and I.1"
+    relationship: "formalizes"
+    author_endorsement: "participated"
+    note: >-
+      Companion paper for this repository. AI-discovered solutions
+      (Section 2, Appendices E–I) are on the separate `discoveries` branch.
+
+
+  - title: "Quantum Hoare Logic with Classical Variables"
+    authors:
+      - "Yuan Feng"
+      - "Mingsheng Ying"
+    id: "https://doi.org/10.1145/3456877"
+    type: "article"
+    location: "Sections 3, 4.1–4.4, 7.1, and 7.2"
+    relationship: "adapts"
+    note: >-
+      Basis for classical-quantum states, assertions, expectation, denotational semantics,
+      total-correctness weakest preconditions, and the Grover and QFT case
+      studies.
+
+  - title: "Towards a Quantum Programming Language"
+    authors:
+      - "Peter Selinger"
+    id: "https://doi.org/10.1017/S0960129504004256"
+    type: "article"
+    location: "Section 3.8, Proposition 3.6"
+    relationship: "adapts"
+    note: >-
+      Partial density operators form ω-CPO in the Loewner order; loop semantics.
+
+classification:
+  arxiv:
+    - "quant-ph"
+    - "cs.LO"
+    - "cs.PL"
+    - "cs.AI"
+  msc2020:
+    - "81P68"
+    - "68Q12"
+    - "68Q60"
+    - "68V15"
+
+automation:
+  methods:
+    - method: "manual"
+      tool_setup: >-
+        Hand-written core definitions, quantum Hoare logic framework and
+        Comparator specifications.
+    - method: "agent"
+      tool_setup: >-
+        Interactive AI coding agents operating with Lean compiler, linter, and
+        test feedback during library formalization, refactoring, and
+        specification engineering, subject to human maintainer review and human-led 
+        in depth AI review.
+    - method: "autonomous"
+      tool_setup: >-
+        Gemini 4 multi-agent discovery runs (agent teams with shared wikis and
+        scheduled conferences) producing solutions to the
+        `QuantumComputationSpecs/ChallengeJsons/` specifications, checked in a
+        sandbox via [Comparator](https://github.com/leanprover/comparator).
+  notes: >-
+    AI-discovered solutions are described in
+    [arXiv:2611.09822](https://arxiv.org/abs/2611.09822) and kept on the
+    separate `discoveries` branch.
+
+fidelity:
+  divergences: |-
+    The formalization makes the following deliberate
+    design adaptations diverging from Feng and Ying, 2021. These are documented in Appendix A of
+    [arXiv:2611.09822](https://arxiv.org/abs/2611.09822) and module docstrings:
+
+    1. **Integer stores, shallow expressions and guards** (Defs 3.1, §4.1).
+       Classical variables are integer-only (`Store Var := Var → ℤ`);
+       expressions are Lean functions `Store Var → ℤ` and guards are decidable
+       predicates `Store Var → Prop`.
+    2. **No random assignment** (§4.1). `x :=_$ g` is omitted.
+    3. **One Hilbert space instead of named quantum variables** (§3.1).
+       Instead of named quantum variables `qVar`, `QProg Var d` acts on a single
+       `d`-dimensional system, where `d` is a positive natural number, 
+       with multi-qubit subsystems addressed via `QRegister k n` embeddings.
+    4. **`CQState` without explicit countable support** (Def 3.1). Defined via
+       `HasSum` over all classical states; equivalent to the paper's
+       definition by `CQState.equivSubtypeSupportCountable`.
+    5. **`CQAssertion` as the full function space** (Def 3.5).
+       `State → Observable (Fin d)`, dropping countable-range and definability
+       conditions so assertions are closed under ω-suprema; equivalent to the
+       paper's definition for finite `Var` by `CQAssertion.equivCountable`.
+
+review:
+  status: "self-assessed"
+  notes: >-
+    Every pull request receives both AI code review and human maintainer
+    review, alongside automated build, linter, and Comparator configuration
+    CI (custom `check_challenge_jsons` specification validator).

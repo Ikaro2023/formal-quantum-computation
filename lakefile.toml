@@ -1,0 +1,40 @@
+name = "formal-quantum-computation"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["QuantumComputation", "QuantumComputationSpecs"]
+testDriver = "check_challenge_jsons"
+lintDriver = "batteries/runLinter"
+lintDriverArgs = ["QuantumComputation", "QuantumComputationSpecs"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+autoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+weak.linter.style.header = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.35.0"
+
+[[require]]
+name = "physlib"
+git = "https://github.com/leanprover-community/physlib"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "QuantumComputation"
+
+[[lean_lib]]
+# this is a separate library so that we can allow `sorry` here
+name = "QuantumComputationSpecs"
+[lean_lib.leanOptions]
+warn.sorry = false
+
+[[lean_exe]]
+name = "check_challenge_jsons"
+srcDir = "scripts"
+root = "CheckChallengeJsons"
+needs = ["QuantumComputationSpecs"]
+supportInterpreter = true
