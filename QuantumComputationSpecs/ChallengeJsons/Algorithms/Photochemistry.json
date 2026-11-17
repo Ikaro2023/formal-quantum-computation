@@ -1,6 +1,6 @@
 {
   "challenge_module": "QuantumComputationSpecs.Algorithms.Photochemistry",
-  "solution_module": "QuantumComputationSpecs.Algorithms.Photochemistry",
+  "solution_module": "QuantumComputationDiscoveries.Algorithms.Photochemistry",
   "theorem_names": [
     "QuantumComputation.Specs.photochemistry_correctness",
     "QuantumComputation.Specs.photochemistry_const_cost"

@@ -14,6 +14,8 @@ libs=$(sed -n '/^\[\[lean_lib\]\]/,/^name/ s/^name *= *"\(.*\)"/\1/p' lakefile.t
 
 status=0
 for lib in $libs; do
+  # Solutions to challenges of the same spec re-declare that spec: no root module.
+  [ "$lib" = QuantumComputationDiscoveries ] && continue
   # Same header as `mk_all` for a module-style aggregator, then the modules
   # sorted by byte order (`mk_all` sorts with `String.<`).
   expected=$(

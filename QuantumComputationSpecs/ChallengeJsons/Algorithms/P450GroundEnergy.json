@@ -1,6 +1,6 @@
 {
   "challenge_module": "QuantumComputationSpecs.Algorithms.P450GroundEnergy",
-  "solution_module": "QuantumComputationSpecs.Algorithms.P450GroundEnergy",
+  "solution_module": "QuantumComputationDiscoveries.Algorithms.P450GroundEnergy",
   "theorem_names": [
     "QuantumComputation.Specs.p450GroundEnergy_correctness",
     "QuantumComputation.Specs.p450GroundEnergy_const_cost"

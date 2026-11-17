@@ -1,6 +1,6 @@
 {
   "challenge_module": "QuantumComputationSpecs.Primitives.Arcsin",
-  "solution_module": "QuantumComputationSpecs.Primitives.Arcsin",
+  "solution_module": "QuantumComputationDiscoveries.Primitives.Arcsin",
   "theorem_names": [
     "QuantumComputation.Specs.arcsin_correctness",
     "QuantumComputation.Specs.arcsin_k25_const_cost"

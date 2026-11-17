@@ -1,6 +1,6 @@
 {
   "challenge_module": "QuantumComputationSpecs.Algorithms.StoppingPower",
-  "solution_module": "QuantumComputationSpecs.Algorithms.StoppingPower",
+  "solution_module": "QuantumComputationDiscoveries.Algorithms.StoppingPower",
   "theorem_names": [
     "QuantumComputation.Specs.stoppingPower_correctness",
     "QuantumComputation.Specs.stoppingPower_const_cost"

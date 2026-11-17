@@ -1,6 +1,6 @@
 {
   "challenge_module": "QuantumComputationSpecs.Algorithms.Grover",
-  "solution_module": "QuantumComputationSpecs.Algorithms.Grover",
+  "solution_module": "QuantumComputationDiscoveries.Algorithms.GroverFindAll",
   "theorem_names": [
     "QuantumComputation.Specs.groverFindAll_correctness",
     "QuantumComputation.Specs.groverFindAllCells_nonempty",

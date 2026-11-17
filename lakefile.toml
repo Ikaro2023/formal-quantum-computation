@@ -38,3 +38,12 @@ srcDir = "scripts"
 root = "CheckChallengeJsons"
 needs = ["QuantumComputationSpecs"]
 supportInterpreter = true
+
+[[lean_lib]]
+# Verified solutions, one module per challenge, checked against `QuantumComputationSpecs` with
+# comparator (configs in `QuantumComputationSpecs/ChallengeJsons`). There is no root module:
+# solutions to challenges of the same spec re-declare that spec, so they are never imported together.
+name = "QuantumComputationDiscoveries"
+globs = ["QuantumComputationDiscoveries.+"]
+[lean_lib.leanOptions]
+warn.sorry = false
